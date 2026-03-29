@@ -1,0 +1,153 @@
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                    GUÍA RÁPIDA - ADOBE AIR MINIMALISTA                        ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+🎯 OBJETIVO: Crear y ejecutar una app desktop simple con Adobe AIR
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ PASO 0: PREPARACIÓN (Solo primera vez)                                       │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+1. Descarga AIR SDK: https://airsdk.harman.com/
+   
+2. Extrae en: C:\AIR_SDK (o donde prefieras)
+
+3. Configura variables de entorno (Windows):
+   
+   Panel de Control → Sistema → Variables de entorno
+   
+   a) Nueva variable:
+      Nombre: AIR_SDK_HOME
+      Valor:  C:\AIR_SDK
+   
+   b) Edita variable PATH, agrega:
+      C:\AIR_SDK\bin
+
+4. Verifica instalación:
+   
+   Abre PowerShell/CMD y ejecuta:
+   
+   mxmlc -version
+   adl -version
+   
+   Si aparece la versión, ¡está listo!
+
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ PASO 1: COMPILAR                                                             │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+Opción A (Automático - Windows):
+  
+  Navega a la carpeta del proyecto y ejecuta:
+  
+  ► compilar.bat
+
+Opción B (Manual):
+  
+  Abre PowerShell/CMD en la carpeta del proyecto y ejecuta:
+  
+  ► mxmlc -source-path=src -output=bin/Main.swf src/Main.mxml
+
+Resultado esperado:
+  ✓ Sin errores
+  ✓ Se crea archivo: bin\Main.swf
+
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ PASO 2: EJECUTAR                                                             │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+Opción A (Automático - Windows):
+  
+  ► ejecutar.bat
+
+Opción B (Manual):
+  
+  Abre PowerShell/CMD en la carpeta del proyecto y ejecuta:
+  
+  ► adl src/application.xml bin/
+
+Resultado esperado:
+  ✓ Se abre ventana de la aplicación
+  ✓ Título: "Hola AIR - Aplicación de Escritorio"
+  ✓ Botón amarillo en el centro que dice "Hola AIR"
+  ✓ Click en botón → Aparece ventana emergente (Alert) con "Funciona AIR"
+
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ ARCHIVOS IMPORTANTES                                                         │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+src/Main.mxml
+  → Define la interfaz gráfica de la aplicación
+  → WindowedApplication para escritorio
+  → VGroup para centrar
+  → Button que ejecuta función al hacer click
+
+src/application.xml
+  → Configura la aplicación AIR
+  → Define tamaño de ventana (400x300)
+  → Define archivo SWF principal (Main.swf)
+
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ ERRORES COMUNES Y SOLUCIONES                                                 │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+❌ "mxmlc no se encuentra"
+   → AIR_SDK_HOME no está configurado
+   → Solución: Configura AIR_SDK_HOME y PATH
+
+❌ "No se puede encontrar src/Main.mxml"
+   → Ejecutándose desde carpeta incorrecta
+   → Solución: Navega a la raíz del proyecto antes de compilar
+
+❌ "ADL no se encuentra"
+   → AIR_SDK_HOME no está configurado
+   → Solución: Configura AIR_SDK_HOME y PATH
+
+❌ "application.xml no encontrado"
+   → ADL no puede encontrar el descriptor
+   → Solución: Verifica que src/application.xml exista
+
+❌ "Main.swf no existe"
+   → Compilación no completada
+   → Solución: Ejecuta compilar.bat primero
+
+❌ "Error de compilación en Main.mxml"
+   → Sintaxis incorrecta en el archivo MXML
+   → Solución: Verifica corchetes, comillas y etiquetas XML
+
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ RESUMEN DE COMANDOS                                                          │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+Compilar:
+  mxmlc -source-path=src -output=bin/Main.swf src/Main.mxml
+
+Ejecutar:
+  adl src/application.xml bin/
+
+Verificar instalación:
+  mxmlc -version
+  adl -version
+
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ FLUJO TÍPICO                                                                 │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+1. Abre PowerShell/CMD
+2. Navega a carpeta del proyecto
+3. Ejecuta: mxmlc -source-path=src -output=bin/Main.swf src/Main.mxml
+4. Si todo está bien, ejecuta: adl src/application.xml bin/
+5. ¡La aplicación se abre en una ventana!
+
+
+═══════════════════════════════════════════════════════════════════════════════
+
+Para más información, lee README.md o INSTRUCCIONES.txt
+
+═══════════════════════════════════════════════════════════════════════════════

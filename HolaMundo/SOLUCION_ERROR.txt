@@ -1,0 +1,100 @@
+╔══════════════════════════════════════════════════════════════════════════════╗
+║              SOLUCIÓN: FLEX SDK vs AIR SDK - EXPLICACIÓN                      ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+❌ PROBLEMA ORIGINAL:
+─────────────────────────────────────────────────────────────────────────────
+Error: "No se puede encontrar la clase base 'spark.components.WindowedApplication'"
+
+CAUSA:
+  - Estabas usando Apache Flex SDK 4.16.1 (Flex SDK estándar)
+  - Main.mxml requería spark:WindowedApplication (que es de AIR SDK)
+  - Flex SDK 4.16.1 no incluye las librerías AIR específicas
+
+
+✅ SOLUCIÓN IMPLEMENTADA:
+─────────────────────────────────────────────────────────────────────────────
+
+1. Cambié Main.mxml para usar componentes MX (compatibles con Flex SDK 4.16.1)
+   
+   ANTES (Spark/AIR):
+   <s:WindowedApplication>
+     <s:VGroup>
+       <s:Button>
+
+   DESPUÉS (MX/Flex):
+   <mx:WindowedApplication>
+     <mx:VBox>
+       <mx:Button>
+
+2. Agregué flags de compilación AIR al compilar.bat
+
+3. Main.mxml ahora funciona con:
+   - Apache Flex SDK 4.16.1 ✓
+   - AIR SDK ✓
+
+
+📊 COMPARATIVA:
+─────────────────────────────────────────────────────────────────────────────
+
+                 | FLEX SDK                    | AIR SDK
+─────────────────┼────────────────────────────┼──────────────────────
+Componentes      | mx.* (tradicionales)       | spark.* (modernos)
+WindowedApp      | mx:WindowedApplication     | s:WindowedApplication
+Compilador       | mxmlc                      | mxmlc/amxmlc
+Aplicaciones     | Web, Flex 4.x              | Desktop, Mobile, TV
+Librerías        | Flex Framework             | AIR Framework + Flex
+Versión actual   | 4.16.1 (última)            | 33.1+ (ActualHTMLElement)
+
+
+🔄 DIFERENCIAS EN EL CÓDIGO:
+─────────────────────────────────────────────────────────────────────────────
+
+FLEX SDK (MX):
+  - Componentes: mx:Button, mx:VBox, mx:WindowedApplication
+  - Contenedores: VBox, HBox, ControlBar
+  - Más tradicional, más compatible
+
+AIR SDK (Spark):
+  - Componentes: s:Button, s:VGroup, s:WindowedApplication
+  - Contenedores: VGroup, HGroup, SkinnableContainer
+  - Más moderno, mejor rendimiento
+
+
+🚀 CÓMO EJECUTAR AHORA:
+─────────────────────────────────────────────────────────────────────────────
+
+1. Compilar:
+   compilar.bat
+   o
+   mxmlc -compiler.define CONFIG::TESTING false -compiler.define CONFIG::release true -source-path=src -output=bin/Main.swf src/Main.mxml
+
+2. Ejecutar:
+   ejecutar.bat
+   o
+   adl src/application.xml bin/
+
+
+📝 SI QUIERES USAR AIR SDK COMPLETO:
+─────────────────────────────────────────────────────────────────────────────
+
+Si descargaste AIR SDK completo de https://airsdk.harman.com/, puedes:
+
+1. Revertir Main.mxml a usar spark:* components
+2. Usar AIR SDK en lugar de Flex SDK
+3. Configurar FLEX_HOME o usar amxmlc
+
+Comando alternativo con AIR SDK:
+  amxmlc -source-path=src -output=bin/Main.swf src/Main.mxml
+
+(amxmlc = Adobe MXML Compiler, es mxmlc con soporte AIR)
+
+
+═══════════════════════════════════════════════════════════════════════════════
+
+RECOMENDACIÓN:
+  La solución actual (Flex SDK 4.16.1 + MX components) es más simple y
+  funciona perfectamente para aplicaciones AIR. Los componentes MX son
+  completamente funcionales y confiables.
+
+═══════════════════════════════════════════════════════════════════════════════

@@ -1,0 +1,125 @@
+╔══════════════════════════════════════════════════════════════════════════════╗
+║          PROYECTO ADOBE AIR + APACHE FLEX - INSTRUCCIONES                     ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+📁 ESTRUCTURA DEL PROYECTO:
+─────────────────────────────────────────────────────────────────────────────
+prueba/
+├── src/
+│   ├── Main.mxml              ← Aplicación principal (interfaz gráfica)
+│   └── application.xml        ← Descriptor AIR (configuración de la app)
+├── bin/                       ← Aquí irán los archivos compilados
+│   ├── Main.swf              (se genera tras compilar)
+│   └── HolaAIR.air           (se genera tras empaquetar)
+├── INSTRUCCIONES.txt         ← Este archivo
+└── settings.json             ← Configuración original
+
+
+📋 REQUISITOS PREVIOS:
+─────────────────────────────────────────────────────────────────────────────
+1. Adobe AIR SDK instalado
+   - Descargar de: https://airsdk.harman.com/
+   - Versión recomendada: 33.1 o superior
+
+2. Apache Flex SDK (compilador MXML)
+   - Part del AIR SDK (incluye el compilador mxmlc)
+
+3. Variables de entorno configuradas:
+   - AIR_SDK_HOME debe apuntar a la carpeta del AIR SDK
+   - PATH debe incluir la carpeta bin del AIR SDK
+
+Ejemplo en Windows:
+   - AIR_SDK_HOME=C:\Usuario\AIR_SDK
+   - PATH=C:\Usuario\AIR_SDK\bin;%PATH%
+
+
+🔨 PASO 1: COMPILAR MXML A SWF
+─────────────────────────────────────────────────────────────────────────────
+Ejecuta este comando desde la raíz del proyecto:
+
+  mxmlc -source-path=src -output=bin/Main.swf src/Main.mxml
+
+Desglose:
+  -source-path=src        : Ruta donde buscar archivos MXML
+  -output=bin/Main.swf    : Archivo SWF de salida
+  src/Main.mxml           : Archivo MXML a compilar
+
+Resultado esperado:
+  ✓ Se crea bin/Main.swf
+  ✓ Sin errores en la compilación
+
+
+🎮 PASO 2: EJECUTAR CON ADL (Adobe Debug Launcher)
+─────────────────────────────────────────────────────────────────────────────
+Para probar la aplicación en modo debug, ejecuta:
+
+  adl src/application.xml bin/
+
+Desglose:
+  src/application.xml     : Descriptor AIR (configuración)
+  bin/                    : Carpeta con el SWF compilado
+
+Resultado esperado:
+  ✓ Se abre una ventana de aplicación
+  ✓ Aparece un botón que dice "Hola AIR" en el centro
+  ✓ Al hacer click, muestra un alert con "Funciona AIR"
+
+
+📦 PASO 3 OPCIONAL: EMPAQUETAR COMO ARCHIVO AIR
+─────────────────────────────────────────────────────────────────────────────
+Para crear un instalador (.air):
+
+  adt -package -storetype pkcs12 -keystore michiave.p12 bin/HolaAIR.air src/application.xml bin/Main.swf
+
+Nota: Necesitas un certificado. Para desarrollo, puedes crear uno autofirmado:
+  adt -certificate -cn certificado 1024-RSA michiave.p12 123456
+
+(Solo necesario si quieres distribuir la aplicación)
+
+
+✅ CHECKLIST DE VERIFICACIÓN:
+─────────────────────────────────────────────────────────────────────────────
+1. ¿AIR SDK instalado y en PATH?
+   Verifica: mxmlc -version
+
+2. ¿MXML compiló sin errores?
+   Verifica que exista: bin/Main.swf
+
+3. ¿Se abrió la aplicación con adl?
+   Verifica: Ventana con título "Hola AIR - Aplicación de Escritorio"
+
+4. ¿Funciona el botón?
+   Verifica: Click en "Hola AIR" → Aparece Alert
+
+
+🐛 SOLUCIÓN DE PROBLEMAS:
+─────────────────────────────────────────────────────────────────────────────
+Problema: "mxmlc no se reconoce"
+Solución: Verifica que AIR_SDK_HOME esté en PATH
+
+Problema: "Error: aplicación no se abre"
+Solución: Verifica que application.xml apunte a Main.swf correctamente
+
+Problema: "Error al compilar Main.mxml"
+Solución: Verifica que -source-path coincida con la ubicación del archivo
+
+
+📚 ARCHIVOS GENERADOS:
+─────────────────────────────────────────────────────────────────────────────
+main.swf         : Archivo compilado (aplicación en bytecode Flash)
+HolaAIR.air      : Instalador empaquetado (opcional)
+
+
+💡 NOTAS:
+─────────────────────────────────────────────────────────────────────────────
+- Main.mxml usa WindowedApplication para aplicaciones de escritorio
+- application.xml configura propiedades de la ventana (tamaño, título, etc)
+- El botón está centrado horizontalmente y verticalmente con VGroup
+- No se usan librerías externas, solo componentes estándar de Flex
+- Alert es parte de mx.controls (librería estándar de Flex)
+
+
+═══════════════════════════════════════════════════════════════════════════════
+Para más información sobre Adobe AIR: https://airsdk.harman.com/
+Para más información sobre Apache Flex: https://flex.apache.org/
+═══════════════════════════════════════════════════════════════════════════════
